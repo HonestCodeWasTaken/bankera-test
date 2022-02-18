@@ -39,6 +39,7 @@ const Home: NextPage = () => {
     const data: IBtcData = await ApiCalls.fetchUrl('https://api.coindesk.com/v1/bpi/currentprice.json')
     setCurrentBtcData(data)
   }
+  
   const removeField = (i: number) => {
     if (currentFields) {
       let fieldsCopy = currentFields
@@ -53,6 +54,24 @@ const Home: NextPage = () => {
       pushedFields.push(currencyToPush)
       setCurrentFields(pushedFields)
     }
+  }
+  const onSelectChange = (code: string | string[]) => {
+    if (currentInitFields !== undefined) {
+          let newArray : Array<IExchangeData> = currentInitFields.filter(x => code.includes(x.code))
+          console.log(newArray)
+          setCurrentFields(newArray)
+    }
+
+    // if (currentInitFields && Array.isArray(code)) {
+    //   for (let index = 0; index < code.length; index++) {
+    //     const element = code[index];
+    //     const newCurrentField = currentInitFields.find(x => x.code === element)
+    //     if (newCurrentField !== undefined) {
+    //       newArray.push(newCurrentField)
+    //     }
+    //   }
+    //   setCurrentFields(newArray)
+    // }
   }
   useEffect(() => {
     const dataFetchInit = async () => {
@@ -77,24 +96,24 @@ const Home: NextPage = () => {
       <Flex flexDir="column" maxW='400px' maxH='400px'>
         <FormControl py={3}>
           <FormLabel >Bitcoin converter</FormLabel>
-          <Input id='email' type='number' />
+          <Input defaultValue={1} id='email' type='number' />
           <FormHelperText>{currentBtcData?.disclaimer}</FormHelperText>
         </FormControl>
         <HStack py={2}>
           <Heading py={2} as='h5' fontSize='22px'>Currency exchange rates</Heading>
-          <Spacer/>
-        {currentFields && currentInitFields && currentFields.length !== currentInitFields.length ? <Menu closeOnSelect={false}>
-          <MenuButton textAlign='center'  maxW='120px' my={3} as={Button} colorScheme='blue'>
-            Currencies
-          </MenuButton>
-          <MenuList minWidth='240px'>
-            <MenuOptionGroup onChange={} value={currentFields.map(x => x.code)} title='Select Currency' type='checkbox'>
-            {currentInitFields.map((currency, index) => (
-            <MenuItemOption  onClick={() => addField(index)} key={index} value={currency.code}>{currency.code}</MenuItemOption>
-          ))}
-            </MenuOptionGroup>
-          </MenuList>
-        </Menu> : null}
+          <Spacer />
+          {currentFields && currentInitFields && currentFields.length !== currentInitFields.length ? <Menu closeOnSelect={false}>
+            <MenuButton textAlign='center' maxW='120px' my={3} as={Button} colorScheme='blue'>
+              Currencies
+            </MenuButton>
+            <MenuList minWidth='240px'>
+              <MenuOptionGroup onChange={(code) => onSelectChange(code)} value={currentFields.map(x => x.code)} title='Select Currency' type='checkbox'>
+                {currentInitFields.map((currency, index) => (
+                  <MenuItemOption key={index} value={currency.code}>{currency.code}</MenuItemOption>
+                ))}
+              </MenuOptionGroup>
+            </MenuList>
+          </Menu> : null}
         </HStack>
         {currentFields ? <Flex flexDir="column">
           {currentFields.map((currency, index) => (
