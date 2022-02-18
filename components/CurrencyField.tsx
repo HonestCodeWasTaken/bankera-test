@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Stat,
   StatLabel,
@@ -12,20 +12,32 @@ import { IExchangeData } from '../Interfaces/IBtcData'
 interface Props {
   currency: IExchangeData
   removeCurrency: () => void
+  numberInput: string
 }
 
-const CurrencyField = ({ currency, removeCurrency }: Props) => {
-  function htmlDecode(input: string){
-    var e = document.createElement('div');
-    e.innerHTML = input;
-    return e.childNodes[0].nodeValue;
-  }
+const CurrencyField = ({ numberInput, currency, removeCurrency }: Props) => {
+  const [valueOfMoney, setValueOfMoney] = useState<string>()
 
+  const calculateCurrency = (rate_float: number, currencyCode: string) => {
+    if (numberInput !== '') {
+      const num = parseFloat(numberInput) * rate_float
+      return new Intl.NumberFormat(`en-US`, {
+        currency: currencyCode,
+        style: 'currency',
+      }).format(num)
+    }
+    else {
+      return new Intl.NumberFormat(`en-US`, {
+        currency: currencyCode,
+        style: 'currency',
+      }).format(0)
+    }
+  }
   return (
     <Flex>
       <Stat>
         <StatLabel>{`${currency.code} to BTC exchange`}</StatLabel>
-        <StatNumber>{`${htmlDecode(currency.symbol)} ${currency.rate}`}</StatNumber>
+        <StatNumber>{`${calculateCurrency(currency.rate_float, currency.code)}`}</StatNumber>
       </Stat>
       <Spacer />
       <CloseButton onClick={removeCurrency} />
