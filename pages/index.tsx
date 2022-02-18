@@ -22,6 +22,7 @@ import {
   MenuItemOption,
   MenuOptionGroup,
 } from '@chakra-ui/react'
+import { DarkModeSwitch } from '../components/DarkModeSwitch'
 
 const Home: NextPage = () => {
   const [disclaimer, setDisclaimer] = useState<string>('')
@@ -83,7 +84,6 @@ const Home: NextPage = () => {
 
   return (
     <>
-    
     <Flex flexDir="column" minHeight="100vh" alignItems='center' justifyContent="center">
       <Flex px={3} flexDir="column" maxW='400px' maxH='400px'>
         <FormControl py={3}>
@@ -113,6 +113,7 @@ const Home: NextPage = () => {
           ))}
         </Flex> : <Spinner />}
       </Flex>
+      <DarkModeSwitch></DarkModeSwitch>
     </Flex >
     </>
   )
