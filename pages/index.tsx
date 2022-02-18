@@ -103,7 +103,6 @@ const Home: NextPage = () => {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 setNumberInput(event.target.value)
               }
-              defaultValue={1}
               type="number"
             />
             <FormHelperText>{disclaimer}</FormHelperText>
@@ -116,11 +115,11 @@ const Home: NextPage = () => {
             {currentFields &&
             currentInitFields &&
             currentFields.length !== currentInitFields.length ? (
+              <Flex my={3}>
               <Menu closeOnSelect={false}>
                 <MenuButton
                   textAlign="center"
                   maxW="120px"
-                  my={3}
                   as={Button}
                   colorScheme="blue"
                 >
@@ -141,6 +140,7 @@ const Home: NextPage = () => {
                   </MenuOptionGroup>
                 </MenuList>
               </Menu>
+              </Flex>
             ) : null}
           </HStack>
           {currentFields ? (
