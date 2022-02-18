@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
+
 import {
   Stat,
   StatLabel,
@@ -7,6 +8,7 @@ import {
   CloseButton,
   Spacer,
 } from '@chakra-ui/react'
+
 import { IExchangeData } from '../Interfaces/IBtcData'
 
 interface Props {
@@ -16,8 +18,6 @@ interface Props {
 }
 
 const CurrencyField = ({ numberInput, currency, removeCurrency }: Props) => {
-  const [valueOfMoney, setValueOfMoney] = useState<string>()
-
   const calculateCurrency = (rate_float: number, currencyCode: string) => {
     if (numberInput !== '') {
       const num = parseFloat(numberInput) * rate_float
@@ -26,18 +26,20 @@ const CurrencyField = ({ numberInput, currency, removeCurrency }: Props) => {
         style: 'currency',
       }).format(num)
     }
-    else {
-      return new Intl.NumberFormat(`en-US`, {
-        currency: currencyCode,
-        style: 'currency',
-      }).format(0)
-    }
+
+    return new Intl.NumberFormat(`en-US`, {
+      currency: currencyCode,
+      style: 'currency',
+    }).format(0)
   }
   return (
     <Flex>
       <Stat>
         <StatLabel>{`${currency.code} to BTC exchange`}</StatLabel>
-        <StatNumber>{`${calculateCurrency(currency.rate_float, currency.code)}`}</StatNumber>
+        <StatNumber>{`${calculateCurrency(
+          currency.rate_float,
+          currency.code
+        )}`}</StatNumber>
       </Stat>
       <Spacer />
       <CloseButton onClick={removeCurrency} />
