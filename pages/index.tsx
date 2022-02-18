@@ -116,30 +116,30 @@ const Home: NextPage = () => {
             currentInitFields &&
             currentFields.length !== currentInitFields.length ? (
               <Flex my={3}>
-              <Menu closeOnSelect={false}>
-                <MenuButton
-                  textAlign="center"
-                  maxW="120px"
-                  as={Button}
-                  colorScheme="blue"
-                >
-                  Currencies
-                </MenuButton>
-                <MenuList minWidth="240px">
-                  <MenuOptionGroup
-                    onChange={(code) => onSelectChange(code)}
-                    value={currentFields.map((x) => x.code)}
-                    title="Select Currency"
-                    type="checkbox"
+                <Menu closeOnSelect={false}>
+                  <MenuButton
+                    textAlign="center"
+                    maxW="120px"
+                    as={Button}
+                    colorScheme="blue"
                   >
-                    {currentInitFields.map((currency, index) => (
-                      <MenuItemOption key={index} value={currency.code}>
-                        {currency.code}
-                      </MenuItemOption>
-                    ))}
-                  </MenuOptionGroup>
-                </MenuList>
-              </Menu>
+                    Currencies
+                  </MenuButton>
+                  <MenuList minWidth="240px">
+                    <MenuOptionGroup
+                      onChange={(code) => onSelectChange(code)}
+                      value={currentFields.map((x) => x.code)}
+                      title="Select Currency"
+                      type="checkbox"
+                    >
+                      {currentInitFields.map((currency, index) => (
+                        <MenuItemOption key={index} value={currency.code}>
+                          {currency.code}
+                        </MenuItemOption>
+                      ))}
+                    </MenuOptionGroup>
+                  </MenuList>
+                </Menu>
               </Flex>
             ) : null}
           </HStack>
